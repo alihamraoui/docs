@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Usage - ToulligQC</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Usage";
+        var mkdocs_page_input_path = "usage.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ToulligQC
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../introduction/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Installation</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Usage</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#command-line">Command line</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#required-arguments">Required arguments</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#optional-arguments">Optional arguments</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../example/">Examples</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../output/">Output</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ToulligQC</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Usage</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="usage">Usage</h2>
+<p>ToulligQC is adapted to RNA-Seq along with DNA-Seq and it is compatible with 1D² runs.
+This QC tool supports only Guppy and Dorado basecalling ouput files.
+It also needs a single <code>.FAST5</code> file (to catch the flowcell ID and the run date) if a telemetry file is not provided.
+Flow cells and kits version are retrieved using the telemetry file.</p>
+<p>ToulligQC can take <strong>barcoding samples</strong> by adding the barcode list as a command line option or providing a MinKNOW <code>samplesheet.csv</code>.</p>
+<p>If the sequencing summary file is not available, toulligQC can also accept <code>.FASTQ</code> or <code>.BAM</code> files. To do so, ToulligQC deals with different file formats: <code>.gz</code>, <code>.tar.gz</code>, <code>.bz2</code>, <code>.tar.bz2</code> and <code>.fast5</code> to retrieve a FAST5 information.</p>
+<p>This tool will produce a set of graphs, statistic file in plain text format and a HTML report
+<a href="https://htmlpreview.github.io/?https://github.com/GenomicParisCentre/toulligQC/blob/master/docs/report.html">HTML report</a>.</p>
+<p>To run ToulligQC you need the <strong>Guppy</strong>/<strong>Dorado</strong> basecaller output files : <code>sequencing_summary.txt</code> and <code>sequencing_telemetry.js</code> or <code>FASTQ</code> or <code>BAM</code>
+This can be compressed with <code>.gzip</code> or <code>.bzip2</code>. 
+You can use your initial Fast5 ONT file too.</p>
+<p>ToulligQC can perform analyses on your data if the directory is organised as the following:</p>
+<pre><code>RUN_ID
+├── sequencing_summary.txt
+└── sequencing_telemetry.js
+</code></pre>
+<p>for 1D² analysis:</p>
+<pre><code>RUN_ID
+├── sequencing_summary.txt
+├── sequencing_telemetry.js
+└── 1dsq_analysis
+    └── sequencing_1dsq_summary.txt
+</code></pre>
+<p>For a barcoded run you can add the barcoding files generated by Guppy/ Dorado <code>barcoding_summary_pass.txt</code> and <code>barcoding_summary_fail.txt</code> to ToulligQC or a single file <code>sequencing_summary_all.txt</code> containing sequencing_summary and barcoding_summary information combined.</p>
+<p>For the barcode list to use in the command line options, ToulligQC handle the following naming schemes: BCXX, RBXX, NBXX and barcodeXX where XX is the number of the barcode.
+The barcode naming schemes are case insensitive. But since the <code>v2.7</code> ToulligQC can deal with any barcode naming schemes.</p>
+<p>This is a directory for 1D² analysis with barcoding files:</p>
+<pre><code>  RUN_ID
+  ├── sequencing_summary.txt
+  ├── sequencing_telemetry.js
+  └── 1dsq_analysis
+      ├── barcoding_summary_pass.txt
+      ├── barcoding_summary_fail.txt
+      └── sequencing_1dsq_summary.txt
+</code></pre>
+<ul>
+<li>
+<h4 id="command-line">Command line</h4>
+</li>
+</ul>
+<p>General Options:</p>
+<pre><code>usage: ToulligQC [-a SEQUENCING_SUMMARY_SOURCE] [-t TELEMETRY_SOURCE]
+                      [-f FAST5_SOURCE] [-p POD5_SOURCE] [-q FASTQ] [-u BAM]
+                      [--thread THREAD] [--batch-size BATCH_SIZE] [--qscore-threshold THRESHOLD]
+                      [-n REPORT_NAME] [--output-directory OUTPUT] [-o HTML_REPORT_PATH]
+                      [--data-report-path DATA_REPORT_PATH] 
+                      [--images-directory IMAGES_DIRECTORY]
+                      [-d SEQUENCING_SUMMARY_1DSQR_SOURCE]
+                      [-s SAMPLESHEET]
+                      [-b] [-l BARCODES]
+                      [--quiet] [--force] [-h] [--version]
+</code></pre>
+<ul>
+<li>
+<h4 id="required-arguments">Required arguments</h4>
+</li>
+</ul>
+<pre><code>  -a SEQUENCING_SUMMARY_SOURCE, --sequencing-summary-source SEQUENCING_SUMMARY_SOURCE
+                        Basecaller sequencing summary source, can be
+                        compressed with gzip (.gz) or bzip2 (.bz2)
+  -t TELEMETRY_SOURCE, --telemetry-source TELEMETRY_SOURCE
+                        Basecaller telemetry file source, can be compressed
+                        with gzip (.gz) or bzip2 (.bz2)
+  -f FAST5_SOURCE, --fast5-source FAST5_SOURCE
+                        Fast5 file source (necessary if no telemetry file),
+                        can also be in a tar.gz/tar.bz2 archive or a directory
+  -p POD5_SOURCE, --pod5-source POD5_SOURCE
+                        pod5 file source (necessary if no telemetry file), 
+                        can also be in a tar.gz/tar.bz2 archive or a directory
+  -q FASTQ, --fastq FASTQ
+                        FASTQ file (necessary if no sequencing summary file),
+                        can also be in a .gz archive
+  -u BAM, --bam BAM
+                        BAM file (necessary if no sequencing summary file),
+                        can also be a SAM format
+</code></pre>
+<ul>
+<li>
+<h4 id="optional-arguments">Optional arguments</h4>
+</li>
+</ul>
+<pre><code>  -s SAMPLESHEET, --samplesheet SAMPLESHEET
+                        Samplesheet (.csv file) to fill out sample names in MinKNOW.
+  -n REPORT_NAME, --report-name REPORT_NAME
+                        Report name
+  --output-directory OUTPUT
+                        Output directory
+  -o HTML_REPORT_PATH, --html-report-path HTML_REPORT_PATH
+                        Output HTML report
+  --data-report-path DATA_REPORT_PATH
+                        Output data report
+  --images-directory IMAGES_DIRECTORY
+                        Images directory
+  -d SEQUENCING_SUMMARY_1DSQR_SOURCE, --sequencing-summary-1dsqr-source SEQUENCING_SUMMARY_1DSQR_SOURCE
+                        Basecaller 1dsq summary source
+  -b, --barcoding       Option for barcode usage
+  -l BARCODES, --barcodes BARCODES
+                        Comma-separated barcode list (e.g.,
+                        BC05,RB09,NB01,barcode10) or a range separated with ':' (e.g.,
+                        barcode01:barcode19)
+  --thread THREAD       Number of threads for parsing FASTQ or BAM files (default: 2).
+  --batch-size BATCH_SIZE Batch size for each threads (default: 500).
+  --qscore-threshold THRESHOLD Q-score threshold to distinguish between passing filter and
+                        fail reads (default: 9), applicable only for FASTQ and BAM files.
+  --quiet               Quiet mode
+  --force               Force overwriting of existing files
+  -h, --help            Show this help message and exit
+  --version             show program's version number and exit
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../example/" class="btn btn-neutral float-right" title="Examples">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../example/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
